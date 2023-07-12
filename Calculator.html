@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        user-select: none;
+    }
+    body{
+        background: rgb(237, 237, 242);
+    }
+    .calculator{
+        width: 420px;
+        margin: auto;
+        margin-top: 50px;
+        user-select: none;
+        border-radius: 10px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, .2);
+    }
+    .calculator .input{
+        width: 100%;
+        height: 130px;
+        user-select: none;
+        padding: 15px 20px;
+    }
+    .calculator .input input{
+        width: 100%;
+        height: 100%;
+        font-size: 70px;
+        text-align: right;
+        background: ghostwhite;
+        color: black;
+        padding: 0 10px;
+        outline: none;
+        border: none;
+        border-radius: 10px;
+        user-select: none;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+    }
+    .calculator .btns{
+        height: 500px;
+        display: grid;
+        grid-template: repeat(5, 80px) / repeat(4, 80px);
+        justify-content: space-evenly;
+        align-content: space-evenly;
+    }
+    .calculator .btns button{
+        cursor: pointer;
+        font-size: 40px;
+        border: none;
+        outline: none;
+        border-radius: 5px;
+        background: whitesmoke;
+        box-shadow:  0 4px 6px rgba(0, 0, 0, .2);
+    }
+    .calculator .btns button:nth-child(1){
+        /* background: orange; */
+        grid-column: 1/3;
+        grid-row: 1/2;
+    }
+    .calculator .btns button:nth-child(16){
+        /* background: deepskyblue; */
+        grid-column: 4/5;
+        grid-row: 4/6;
+    }
+    .calculator .btns button:nth-child(17){
+        /* background: teal; */
+        grid-column: 1/3;
+        grid-row: 5/6;
+    }
+    .calculator .btns button:active{
+        /* background: rgba(0, 0, 0, .1); */
+        box-shadow: inset 0 -4px 10px rgba(0, 0, 0, .2);
+    }
+    .darkMode{
+        padding: 10px 25px;
+        font-size: 30px;
+        font-family: monospace;
+        background: ghostwhite;
+        box-shadow: 0 10px 15px rgba(0, 0, 0, .2);
+        position: fixed;
+        right: 70px;
+        top: 50px;
+        cursor: pointer;
+        border-radius: 15px;
+    }
+    .body_2{
+        background: black;
+    }
+    .darkMode_2{
+        background: #2c3e50;
+        color: ghostwhite;
+    }
+    .calculator_2{
+        background: #2c3e50;
+    }
+    .calculator .btns button.btns_2{
+        background: #1e272e;
+        color: ghostwhite;
+    }
+    .calculator .input input.input_2{
+        background: #1e272e;
+        color: ghostwhite;
+    }
+    .calculator .input input.input_2::placeholder{
+        color: ghostwhite;
+    }
+</style>
+<body>
+    <div class="calculator">
+        <div class="input">
+            <input type="text" value="" placeholder="0" disabled>
+        </div>
+        <div class="btns">
+            <button class = "clearbtn">C</button>
+            <button value = "/" >÷</button>
+            <button value = "*" >×</button>
+            <button value = "7" >7</button>
+            <button value = "8" >8</button>
+            <button value = "9" >9</button>
+            <button value = "+" >+</button>
+            <button value = "4" >4</button>
+            <button value = "5" >5</button>
+            <button value = "6" >6</button>
+            <button value = "-" >-</button>
+            <button value = "1" >1</button>
+            <button value = "2" >2</button>
+            <button value = "3" >3</button>
+            <button value = "." >.</button>
+            <button class = "equalbtn">=</button>
+            <button value = "0" >0</button>
+        </div>
+    </div>
+    <div class = "darkMode" onclick = "darkMode()">Dark</div>
+    <script>
+        let buttons = document.querySelectorAll(".calculator .btns button");
+        let result = document.querySelector(".calculator .input input");
+        let clearbtn = document.querySelector(".calculator .btns .clearbtn");
+        let equalbtn = document.querySelector(".calculator .btns .equalbtn");
+        let DarkMode = document.querySelector(".darkMode");
+
+        // buttons.forEach((val) =>{
+        //     val.addEventListener('click', () =>{
+        //         console.log(val.value);
+        //         result.value += val.value;
+        //     })
+        // })
+
+        for(let i = 0; i < buttons.length; i++){
+            buttons[i].addEventListener('click', () =>{
+                result.value += buttons[i].value;
+            })
+        }
+
+        clearbtn.addEventListener('click', () =>{
+            result.value = "";
+        })
+
+        equalbtn.addEventListener('click', () =>{
+            try{
+                // result.value = eval(result.value).toFixed(2);
+
+                if((eval(result.value)).toFixed() >= "1"){
+                    result.value = (eval(result.value)).toFixed(2);
+                }
+                else{
+                    result.value = (eval(result.value)).toFixed();
+                }
+            }
+            catch(e){
+                alert("Error");
+                if(true){
+                    result.value = "";
+                }
+            }
+        })
+        
+        let darkMode = () =>{
+            document.querySelector("body").classList.toggle("body_2");
+            DarkMode.classList.toggle("darkMode_2");
+            (DarkMode.innerHTML == 'Dark') ? DarkMode.innerHTML = 'Light' : DarkMode.innerHTML = 'Dark';           
+            document.querySelector(".calculator").classList.toggle("calculator_2");
+            document.querySelector(".calculator .input input").classList.toggle("input_2");
+            for(let i = 0; i < buttons.length; i++){
+                buttons[i].classList.toggle("btns_2");
+            }
+        }
+    </script>
+</body>
+</html>
